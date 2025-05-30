@@ -1,0 +1,52 @@
+.all_cards {
+    margin: 3rem 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+.card{
+    padding: 1rem;
+    border-radius: 1rem;
+    /* border: 2px solid white; */
+    min-width: 280px;
+    width: 100%;
+    color: var(--card-txt);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::after{
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: -8%;
+}
+
+.card h2{
+    font-size: 64px;
+}
+.card p{
+    font-size: 1rem;
+}
+
+.card__total{
+    background: var(--purple-400);
+}
+.card__total::after{
+    content: url(../../public/assets/pattern-character-count.svg);
+}
+.card__word-count{
+    background: var(--yellow-500);
+}
+
+.card__word-count::after{
+    content: url(../../public/assets/pattern-word-count.svg);
+}
+
+.card__sentence-count{
+    background: var(--orange-500);
+}
+
+.card__sentence-count::after{
+    content: url(../../public/assets/pattern-sentence-count.svg);
+}
