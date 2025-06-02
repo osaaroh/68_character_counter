@@ -69,7 +69,8 @@
   --bg: var(--neutral-0);
   --navbar: var(--neutral-0);
   --section-title: var(--neutral-900);
-  --text-color: var(--neutral-100);
+  --text-color: var(--neutral-900);
+  --textarea-bg: var(--neutral-600);
   --card-border: hsl(0, 0%, 78%);
   --card-bg: var(--neutral-0);
   --card-bg-hover: var(--neutral-0);
@@ -82,7 +83,8 @@
   --bg: var(--neutral-900);
   --navbar: var(--neutral-700);
   --section-title: var(--neutral-100);
-  --text-color: var(--neutral-700);
+  --text-color: var(--neutral-100);
+  --textarea-bg: var(--neutral-800);
   --card-border: var(--neutral-700);
   --card-bg: var(--neutral-800);
   --card-bg-hover: var(--neutral-900);

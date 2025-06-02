@@ -1,3 +1,4 @@
+import { useGlobalContext } from '../contextAPI/context';
 import './LetterDensityChart.css'
 
 function LetterDensityChart() {

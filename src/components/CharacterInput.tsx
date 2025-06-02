@@ -1,10 +1,15 @@
 import './CharacterInput.css'
+import styles from '../Theme.module.css'
+import { useGlobalContext } from '../contextAPI/context';
 function CharacterInput() {
     let limit  : boolean = false;
+    const theme : string = 'dark';
+    const themeClass = theme === 'dark' ? styles.darkTheme : styles.lightTheme ;
+    const {textSplitter} = useGlobalContext();
   return (
     <>
-      <div className='character_textarea--container'>
-        <textarea className="character_textarea" name="" id="" placeholder='Start typing here… (or paste your text)'></textarea>
+      <div className={`${themeClass} character_textarea--container`}>
+        <textarea className="character_textarea" name="" id="" placeholder='Start typing here… (or paste your text)'onChange={(e)=>textSplitter(e.target.value)}></textarea>
         <div className="character_textarea--options">
           <div className="character_textarea--options--checks">
             <div className="input__group input__group-spaces">
