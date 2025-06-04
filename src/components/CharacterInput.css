@@ -12,6 +12,11 @@
     font-weight: var(--fw-regular);
     color: var(--text-color);
 }
+
+.character_textarea.character_textarea_error{
+    border: 2px solid #FE8159;
+}
+
 .character_textarea:focus{
     outline: 2px solid var(--purple-500);
 }

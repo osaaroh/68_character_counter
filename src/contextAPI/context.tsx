@@ -14,13 +14,17 @@ interface CharacterContextType {
   allText: string;
   characterLimit: boolean;
   characterLimitValue: number;
+  excludeSpaces:boolean;
   wordCount: number; 
   characterCount: number;
   sentenceCount: number;
+  readTime: string;
   theme: Theme;
   letterDensity: LetterDensity[];
+  calculateReadTime: ()=> void;
   toggleTheme: () => void;
   toggleCharacterLimit: () => void;
+  toggleExcludeSpaces: () => void;
   storeCharacterLimitValue: (value: number) => void;
   textSplitter: (text: string) => void;
   storeAllText: (text: string) => void;
@@ -35,11 +39,13 @@ const CharacterContextProvider=({children}:{ children: ReactNode })=> {
   const [characterCount, setCharacterCount] = useState(0);
   const [sentenceCount, setSentenceCount] = useState(0);
   const [characterLimit, setCharacterLimit] = useState(false);
-  const [characterLimitValue, setcharacterLimitValue] = useState(0);
+  const [characterLimitValue, setCharacterLimitValue] = useState(0);
+  const [excludeSpaces, setExcludeSpaces] = useState(false);
   //const [letterDensity, setLetterDensity] = useState<string[]>([]);
   //const [letterData, setLetterData] = useState<any[]>([]);
   const [letterDensity, setLetterDensity] = useState<LetterDensity[]>([]);
   const [allText, setAllText] = useState('');
+  const [readTime, setReadTime] = useState('');
 
   // Update body background color based on theme
 React.useEffect(() => {
@@ -56,6 +62,9 @@ React.useEffect(() => {
 React.useEffect(() => {
   textSplitter(allText);
 }, [allText]);
+React.useEffect(() => {
+  calculateReadTime();
+}, [wordCount]);
   
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
@@ -63,25 +72,28 @@ React.useEffect(() => {
   const toggleCharacterLimit = () => {
     setCharacterLimit(prev => (prev === false ? true : false));
   };
+  const toggleExcludeSpaces = () => {
+    setExcludeSpaces(prev => (prev === false ? true : false));
+  };
+
   const storeCharacterLimitValue = (value: number) => {
-    setcharacterLimitValue(value);
+    setCharacterLimitValue(value);
   };
 
   const textSplitter =(text: string)=>{
     const words = text.split(/\s+/).filter(Boolean);
-    console.log(words);
     const sentences = text.split('. ').filter(Boolean);
-    const spaces = false;
     let characters =[];
-    if (!spaces){
-      characters = text.split('').filter((a)=>a!=" ").filter(Boolean);
-    } else{
+    if (!excludeSpaces){
       characters = text.split('').filter(Boolean);
+    } else{
+      characters = text.split('').filter((a)=>a!=" ").filter(Boolean);
     }
-    console.log(characters)
     setCharacterCount(characters.length);
     setWordCount(words.length);
     setSentenceCount(sentences.length);
+    console.log(excludeSpaces);
+    console.log(characters, characters.length)
 }
 
 const updateCharacterDensity =useMemo(()=>{
@@ -103,7 +115,6 @@ const updateCharacterDensity =useMemo(()=>{
     const percentage = ((value / characterCount) * 100).toFixed(2);
     letterDataHolder.push({ key, percentage: parseFloat(percentage), value });
   }
-  console.log('Holder',letterDataHolder);
   return letterDataHolder.sort((a, b) => b.percentage - a.percentage);
 },[allText, characterCount])
 
@@ -111,10 +122,16 @@ const storeAllText =(text: string)=>{
   setAllText(text);
 }
 
+function calculateReadTime() {
+  const readTime =
+    wordCount == 0 ? `0 minutes` : wordCount < 200 ? `<1 minute` : `${Math.floor(wordCount / 200)} minutes`;
+    setReadTime(readTime);
+}
+
 // Now, use useEffect to update the state when updateCharacterDensity (the memoized value) changes
   React.useEffect(() => {
     setLetterDensity(updateCharacterDensity);
-    console.log('LD (after update in useEffect):', updateCharacterDensity); // This will show the updated value
+    //console.log('LD (after update in useEffect):', updateCharacterDensity); // This will show the updated value
   }, [updateCharacterDensity]); // Dependency for useEffect
 
 
@@ -124,17 +141,20 @@ const storeAllText =(text: string)=>{
       allText,
       characterLimit,
       characterLimitValue,
+      excludeSpaces,
       wordCount,
       characterCount,
       sentenceCount,
+      readTime,
       theme,
       letterDensity,
+      calculateReadTime,
       toggleTheme,
       textSplitter,
       storeAllText,
       storeCharacterLimitValue,
       toggleCharacterLimit,
-      
+      toggleExcludeSpaces
     }}>
       {children}
     </CharacterContext.Provider>
