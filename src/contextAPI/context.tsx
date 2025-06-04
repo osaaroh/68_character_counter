@@ -12,13 +12,16 @@ interface LetterDensity {
 
 interface CharacterContextType {
   allText: string;
-  //allTextArray: string[];
+  characterLimit: boolean;
+  characterLimitValue: number;
   wordCount: number; 
   characterCount: number;
   sentenceCount: number;
   theme: Theme;
   letterDensity: LetterDensity[];
   toggleTheme: () => void;
+  toggleCharacterLimit: () => void;
+  storeCharacterLimitValue: (value: number) => void;
   textSplitter: (text: string) => void;
   storeAllText: (text: string) => void;
 }
@@ -31,6 +34,8 @@ const CharacterContextProvider=({children}:{ children: ReactNode })=> {
   const [wordCount, setWordCount] = useState(0);
   const [characterCount, setCharacterCount] = useState(0);
   const [sentenceCount, setSentenceCount] = useState(0);
+  const [characterLimit, setCharacterLimit] = useState(false);
+  const [characterLimitValue, setcharacterLimitValue] = useState(0);
   //const [letterDensity, setLetterDensity] = useState<string[]>([]);
   //const [letterData, setLetterData] = useState<any[]>([]);
   const [letterDensity, setLetterDensity] = useState<LetterDensity[]>([]);
@@ -54,6 +59,12 @@ React.useEffect(() => {
   
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+  const toggleCharacterLimit = () => {
+    setCharacterLimit(prev => (prev === false ? true : false));
+  };
+  const storeCharacterLimitValue = (value: number) => {
+    setcharacterLimitValue(value);
   };
 
   const textSplitter =(text: string)=>{
@@ -111,7 +122,8 @@ const storeAllText =(text: string)=>{
   return (
     <CharacterContext.Provider value={{
       allText,
-      //allTextArray,
+      characterLimit,
+      characterLimitValue,
       wordCount,
       characterCount,
       sentenceCount,
@@ -120,6 +132,9 @@ const storeAllText =(text: string)=>{
       toggleTheme,
       textSplitter,
       storeAllText,
+      storeCharacterLimitValue,
+      toggleCharacterLimit,
+      
     }}>
       {children}
     </CharacterContext.Provider>
