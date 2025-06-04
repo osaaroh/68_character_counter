@@ -5,11 +5,11 @@ function CharacterInput() {
     let limit  : boolean = false;
     const theme : string = 'dark';
     const themeClass = theme === 'dark' ? styles.darkTheme : styles.lightTheme ;
-    const {textSplitter} = useGlobalContext();
+    const {storeAllText,textSplitter} = useGlobalContext();
   return (
     <>
       <div className={`${themeClass} character_textarea--container`}>
-        <textarea className="character_textarea" name="" id="" placeholder='Start typing here… (or paste your text)'onChange={(e)=>textSplitter(e.target.value)}></textarea>
+        <textarea className="character_textarea" name="" id="" placeholder='Start typing here… (or paste your text)'onChange={(e)=>storeAllText(e.target.value)}></textarea>
         <div className="character_textarea--options">
           <div className="character_textarea--options--checks">
             <div className="input__group input__group-spaces">

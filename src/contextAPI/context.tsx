@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 // Types
 type Theme = 'light' | 'dark';
 
 interface CharacterContextType {
-  //allText: string;
+  allText: string;
   //allTextArray: string[];
   wordCount: number; 
   characterCount: number;
@@ -14,6 +14,7 @@ interface CharacterContextType {
   letterDensity: string[];
   toggleTheme: () => void;
   textSplitter: (text: string) => void;
+  storeAllText: (text: string) => void;
 }
 
 // Create Context
@@ -25,6 +26,24 @@ const CharacterContextProvider=({children}:{ children: ReactNode })=> {
   const [characterCount, setCharacterCount] = useState(0);
   const [sentenceCount, setSentenceCount] = useState(0);
   const [letterDensity, setLetterDensity] = useState<string[]>([]);
+  const [letterData, setLetterData] = useState<any[]>([]);
+  const [allText, setAllText] = useState('');
+
+  // Update body background color based on theme
+React.useEffect(() => {
+  //const body = document.querySelector('html') as HTMLHtmlElement;
+  const html = document.documentElement;
+  if (theme === 'dark') {
+    html.style.background = 'linear-gradient(180deg, #040918 0%, #091540 100%)';
+  } else {
+    html.style.background = 'linear-gradient(180deg, #EBF2FC 0%, #EEF8F9 100%)';
+  }
+}, [theme]);
+
+
+React.useEffect(() => {
+  textSplitter(allText);
+}, [allText]);
   
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
@@ -33,31 +52,53 @@ const CharacterContextProvider=({children}:{ children: ReactNode })=> {
   const textSplitter =(text: string)=>{
     const words = text.split(/\s+/).filter(Boolean);
     console.log(words);
-    const sentences = text.split('. ');
+    const sentences = text.split('. ').filter(Boolean);
     const spaces = false;
     let characters =[];
     if (!spaces){
-      characters = text.split('').filter((a)=>a!=" ");
+      characters = text.split('').filter((a)=>a!=" ").filter(Boolean);
     } else{
-      characters = text.split('');
+      characters = text.split('').filter(Boolean);
     }
     console.log(characters)
-    
-    setCharacterCount((characters.length - 1) < 0? 0 : characters.length);
-    if(characters.length==0){
-      setWordCount(0);
-      setSentenceCount(0)
-    }else{
-      setWordCount((words.length - 1) < 0? 0 : words.length);
-      setSentenceCount((sentences.length - 1) < 0? 0 : sentences.length);
-    }
-    setLetterDensity(words);
+    setCharacterCount(characters.length);
+    setWordCount(words.length);
+    setSentenceCount(sentences.length);
 }
+
+const updateCharacterDensity =useMemo(()=>{
+    //create a countLetters object and loop through the string
+  let countLetters: Record<string, number> = {};
+  for (let i = 0; i < allText.length; i++) {
+    //convert each character to uppercase
+    const char = allText[i].toUpperCase();
+    //check again that the character is uppercase
+    if (/[A-Z]/.test(char)) {
+      countLetters[char] = (countLetters[char] || 0) + 1;
+    }
+  }
+
+  let letterDataHolder = [];
+
+  for (const [key, value] of Object.entries(countLetters)) {
+    const percentage = ((value / characterCount) * 100).toFixed(2);
+    letterDataHolder.push({ key, percentage: parseFloat(percentage), value });
+    setLetterData(letterDataHolder.sort((a, b) => b.percentage - a.percentage));
+  }
+  console.log('LD', letterData);
+  console.log('Holder',letterDataHolder);
+},[allText, characterCount])
+
+const storeAllText =(text: string)=>{
+  setAllText(text);
+}
+
+
 
 
   return (
     <CharacterContext.Provider value={{
-      //allText,
+      allText,
       //allTextArray,
       wordCount,
       characterCount,
@@ -65,7 +106,8 @@ const CharacterContextProvider=({children}:{ children: ReactNode })=> {
       theme,
       letterDensity,
       toggleTheme,
-      textSplitter
+      textSplitter,
+      storeAllText,
     }}>
       {children}
     </CharacterContext.Provider>
