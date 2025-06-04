@@ -8,6 +8,7 @@ function LetterDensityChart() {
     const {letterDensity} = useGlobalContext();
     const [seeMore,setSeeMore]=useState(false);
     const [itemsToShow, setItemsToShow]=useState(5);
+    
     const hasMore = letterDensity.length>5;
     const displayedItems = letterDensity.slice(0,itemsToShow);
 
