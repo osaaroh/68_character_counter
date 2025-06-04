@@ -31,10 +31,28 @@
     margin-top: var(--spacing-200);
 }
 
+@media screen and (max-width: 640px) {
+    .character_textarea--options{
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: var(--spacing-200);
+    gap: 1rem;
+}
+}
+
 .character_textarea--options--checks{
     display: flex;
     gap: var(--spacing-200);
 }
+
+@media screen and (max-width: 640px) {
+    .character_textarea--options--checks{
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+}
+
 .character_textarea--options--checks input{
     margin-right: 0.5rem;
 }
