@@ -91,9 +91,9 @@ html{
     justify-content: center;
     align-items: flex-start;
     color: var(--neutral-100);
+    background: var(--neutral-900);
 }
 body {
     max-width: 1440px;
     width: 100%;
-    background: var(--neutral-900);
 }

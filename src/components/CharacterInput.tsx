@@ -3,7 +3,7 @@ import styles from '../Theme.module.css'
 import { useGlobalContext } from '../contextAPI/context';
 import { useState } from 'react';
 function CharacterInput() {
-    const theme : string = 'dark';
+    const {theme} = useGlobalContext();
     const themeClass = theme === 'dark' ? styles.darkTheme : styles.lightTheme ;
     const {characterLimit, characterLimitValue, characterCount, excludeSpaces, readTime, storeAllText,storeCharacterLimitValue, toggleCharacterLimit, toggleExcludeSpaces } = useGlobalContext();
 

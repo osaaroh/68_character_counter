@@ -3,7 +3,7 @@ import { useGlobalContext } from '../contextAPI/context';
 import './LetterDensityChart.css'
 
 function LetterDensityChart() {
-    const theme : string = 'dark';
+    const {theme} = useGlobalContext()
     const arrowColor = theme === 'dark' ? '#E4E4EF' : '#12131A'; //color based on theme
     const {letterDensity} = useGlobalContext();
     const [seeMore,setSeeMore]=useState(false);
@@ -25,7 +25,7 @@ function LetterDensityChart() {
           letterDensity.length<=0?
           <p className="empty-field-message">No Characters found. Start typing to see letter density.</p>:
         <div className="letter-list">
-          {
+          {      
             displayedItems.map((letter, index)=>{
                 return (<div className="letter-density-item" key={index}>
             <span>{letter.key}</span>

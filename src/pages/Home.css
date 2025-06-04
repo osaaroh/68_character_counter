@@ -3,8 +3,13 @@ main h1 {
     font-size: 64px;
     text-align: center;
     margin: 4rem 0;
+    color: var(--text-color);
 }
 
 .container{
     margin: 2rem 0;
+}
+
+.letter_density_container{
+    color: var(--text-color);
 }

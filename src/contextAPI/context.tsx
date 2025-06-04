@@ -52,9 +52,9 @@ React.useEffect(() => {
   //const body = document.querySelector('html') as HTMLHtmlElement;
   const html = document.documentElement;
   if (theme === 'dark') {
-    html.style.background = 'linear-gradient(180deg, #040918 0%, #091540 100%)';
+    html.style.background = '#12131a';
   } else {
-    html.style.background = 'linear-gradient(180deg, #EBF2FC 0%, #EEF8F9 100%)';
+    html.style.background = '#f2f2f7';
   }
 }, [theme]);
 
@@ -68,6 +68,7 @@ React.useEffect(() => {
   
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+    console.log('toggle theme clicked')
   };
   const toggleCharacterLimit = () => {
     setCharacterLimit(prev => (prev === false ? true : false));
