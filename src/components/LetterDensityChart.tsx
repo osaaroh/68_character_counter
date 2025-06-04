@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useState } from 'react';
 import { useGlobalContext } from '../contextAPI/context';
 import './LetterDensityChart.css'
 
@@ -27,7 +26,6 @@ function LetterDensityChart() {
           <p className="empty-field-message">No Characters found. Start typing to see letter density.</p>:
         <div className="letter-list">
           {
-            displayedItems.map((letter, index)=>{
             displayedItems.map((letter, index)=>{
                 return (<div className="letter-density-item" key={index}>
             <span>{letter.key}</span>
