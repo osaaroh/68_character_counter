@@ -1,5 +1,5 @@
 .empty_field_message{
-    margin: 2rem 0;
+    margin: 2rem 0 !important;
 }
 
 .letter-density-item {
@@ -35,4 +35,14 @@
     gap: 0.5rem;
     margin-bottom: 2rem;
     cursor: pointer;
+    transition: all .3s;
+}
+.letter-list--more svg,
+.letter-list--more.less svg
+{
+    transition: all .3s;
+}
+
+.letter-list--more.less svg{
+    transform: rotate(180deg);
 }

@@ -12,7 +12,7 @@ function Home() {
           <h1>Analyze your text in real-time</h1>
           <CharacterInput />
           <AllStatCards />
-          <div>
+          <div className="container">
             <LetterDensityChart />
           </div>
         </main>
