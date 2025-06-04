@@ -4,6 +4,12 @@ import type { ReactNode } from 'react';
 // Types
 type Theme = 'light' | 'dark';
 
+interface LetterDensity {
+  key: string;
+  percentage: number;
+  value: number;
+}
+
 interface CharacterContextType {
   allText: string;
   //allTextArray: string[];
@@ -11,7 +17,7 @@ interface CharacterContextType {
   characterCount: number;
   sentenceCount: number;
   theme: Theme;
-  letterDensity: string[];
+  letterDensity: LetterDensity[];
   toggleTheme: () => void;
   textSplitter: (text: string) => void;
   storeAllText: (text: string) => void;
@@ -25,8 +31,9 @@ const CharacterContextProvider=({children}:{ children: ReactNode })=> {
   const [wordCount, setWordCount] = useState(0);
   const [characterCount, setCharacterCount] = useState(0);
   const [sentenceCount, setSentenceCount] = useState(0);
-  const [letterDensity, setLetterDensity] = useState<string[]>([]);
-  const [letterData, setLetterData] = useState<any[]>([]);
+  //const [letterDensity, setLetterDensity] = useState<string[]>([]);
+  //const [letterData, setLetterData] = useState<any[]>([]);
+  const [letterDensity, setLetterDensity] = useState<LetterDensity[]>([]);
   const [allText, setAllText] = useState('');
 
   // Update body background color based on theme
@@ -78,21 +85,26 @@ const updateCharacterDensity =useMemo(()=>{
     }
   }
 
-  let letterDataHolder = [];
+  //let letterDataHolder = [];
+  let letterDataHolder: LetterDensity[] = [];
 
   for (const [key, value] of Object.entries(countLetters)) {
     const percentage = ((value / characterCount) * 100).toFixed(2);
     letterDataHolder.push({ key, percentage: parseFloat(percentage), value });
-    setLetterData(letterDataHolder.sort((a, b) => b.percentage - a.percentage));
   }
-  console.log('LD', letterData);
   console.log('Holder',letterDataHolder);
+  return letterDataHolder.sort((a, b) => b.percentage - a.percentage);
 },[allText, characterCount])
 
 const storeAllText =(text: string)=>{
   setAllText(text);
 }
 
+// Now, use useEffect to update the state when updateCharacterDensity (the memoized value) changes
+  React.useEffect(() => {
+    setLetterDensity(updateCharacterDensity);
+    console.log('LD (after update in useEffect):', updateCharacterDensity); // This will show the updated value
+  }, [updateCharacterDensity]); // Dependency for useEffect
 
 
 
