@@ -122,3 +122,16 @@
     margin: 0.5rem;
     color: #FE8159;
 }
+
+.character_limit_label{
+    margin-right: 0.35rem;
+}
+
+#limitnum{
+    max-width: 80px;
+    padding: 0.25rem;
+    background-color: var(--textarea-bg);
+    border: 2px solid var(--neutral-700);
+    color: var(--text-color);
+    border-radius: 0.25rem;
+}

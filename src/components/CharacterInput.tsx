@@ -44,7 +44,7 @@ function CharacterInput() {
                   toggleCharacterLimit()
                   }} 
                   />
-              <label htmlFor="limit">Set Character Limit</label>
+              <label htmlFor="limit" className='character_limit_label'>Set Character Limit</label>
               {characterLimit?<input type="number" name="limitnum" id="limitnum" onChange={(e)=>{
                   storeCharacterLimitValue(Number(e.target.value));
                   }}/>:''}
