@@ -82,8 +82,9 @@ React.useEffect(() => {
   };
 
   const textSplitter =(text: string)=>{
+    //let sentence_regex = /\. ! \? /i;
     const words = text.split(/\s+/).filter(Boolean);
-    const sentences = text.split('. ').filter(Boolean);
+    const sentences = text.split(/[.!?;] /).filter(Boolean);
     let characters =[];
     if (!excludeSpaces){
       characters = text.split('').filter(Boolean);
